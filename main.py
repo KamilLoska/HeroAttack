@@ -174,6 +174,12 @@ def main():
         print(player_movement[1])
         if player_movement[1] > 0:
            player_movement[1] = 0
+           if keys[pygame.K_RIGHT] == True:
+                player_action, player_frame = change_action(player_action, player_frame, 'run')
+           if keys[pygame.K_LEFT] == True:
+                player_action, player_frame = change_action(player_action, player_frame, 'run')
+
+
 
         if player_movement[0] < 0 and player_movement[0] < screen_rect.width:
             moving_left = False
@@ -192,6 +198,7 @@ def main():
         if keys[pygame.K_UP] == True:
                 player_action, player_frame = change_action(player_action, player_frame, 'jump')
 
+
                 if air_timer < 7:
                     vertical_momentum = -6
                 if player_movement[1] >= -1:
@@ -202,13 +209,15 @@ def main():
                 else:
                     air_timer += 1
         #DO POPRAWY!@#!@#!@#@#@#
-        if player_movement[1] >= 0:
-            player_action, player_frame = change_action(player_action, player_frame, 'idle')
+        #if player_movement[1] >= 0:
+         #   player_action, player_frame = change_action(player_action, player_frame, 'idle')
 
 
 
         if vertical_momentum >= 3:
             vertical_momentum = 5
+
+
 
         player_movement[1] += vertical_momentum
         vertical_momentum += 0.6
