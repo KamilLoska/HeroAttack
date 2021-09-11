@@ -80,7 +80,6 @@ def main():
     screen_rect = screen.get_rect()
 
     miliseconds_delay = 2000
-
     walk_event = pygame.USEREVENT + 1
     pygame.time.set_timer(walk_event, miliseconds_delay)
 
@@ -90,10 +89,22 @@ def main():
     miliseconds_delay2 = 3000
     seconds = 0
     pygame.time.set_timer(second_walk_event, miliseconds_delay2)
+    myfont = pygame.font.SysFont("comicsansms", 25)
+    hit = 60
+    hits = [1, 2, 3, 4, 5, 6]
+
 
     while loop:
+        for i in range(10):
+            i = 0
+            seconds += + 0.01
+            txt = myfont.render(f"hit: {int(i + seconds)}", 1, (220, 0, 90))
+            if seconds >= 10:
+                seconds = 0
+                i = 0
+
+
         for event in pygame.event.get():
-            #seconds -= 1
 
             #pygame.time.set_timer(walk_event, miliseconds_delay//60)
             pygame.time.set_timer(second_walk_event, miliseconds_delay2//60)
@@ -120,6 +131,8 @@ def main():
                 if player_rect.x + player_movement[0] == enemy_rect.x - 35 + enemy_movement[0]:
                     pygame.time.set_timer(walk_event, miliseconds_delay // 60000)
                     enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'enemy_attack')
+
+
 
         player_frame += 1
         if player_frame >= len(animation_database[player_action]):
@@ -171,7 +184,8 @@ def main():
         keys = pygame.key.get_pressed()
         hitbox = (player_movement[0], player_movement[1] + 619, 40, 60)
         health = 50
-        print(player_movement[1])
+
+        #print(player_movement[1])
         if player_movement[1] > 0:
            player_movement[1] = 0
            if keys[pygame.K_RIGHT] == True:
@@ -198,7 +212,6 @@ def main():
         if keys[pygame.K_UP] == True:
                 player_action, player_frame = change_action(player_action, player_frame, 'jump')
 
-
                 if air_timer < 7:
                     vertical_momentum = -6
                 if player_movement[1] >= -1:
@@ -221,6 +234,7 @@ def main():
 
         player_movement[1] += vertical_momentum
         vertical_momentum += 0.6
+
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -268,11 +282,9 @@ def main():
                 player_action, player_frame = change_action(player_action, player_frame, 'jump')
                 if player_img_id <= str(3):
                     player_action, player_frame = change_action(player_action, player_frame, 'run')
+        #if player_rect.x + player_movement[0] == enemy_rect.x - 35 + enemy_movement[0]:
 
-
-
-
-
+        screen.blit(txt, (player_movement[0] + 30  + vertical_momentum, 600 - air_timer))
 
         screen.blit(pygame.transform.flip(enemy_img,enemy_flip, False), (enemy_rect[0] + enemy_movement[0], enemy_rect[1] + enemy_movement[1]))
         screen.blit(pygame.transform.flip(second_enemy_img, enemy_flip, False), (second_enemy_rect[0] + second_enemy_movement[0], second_enemy_rect[1] + second_enemy_movement[1]))
@@ -281,8 +293,10 @@ def main():
         pygame.draw.rect(screen, (255, 0, 0), (player_movement[0], player_movement[1] + 600, 50, 5))
         pygame.draw.rect(screen, (0, 255, 0), (player_movement[0], player_movement[1] + 600, health, 5))
 
+
         pygame.display.update()
         clock.tick(60)
+
 
 
 if __name__ == '__main__':
