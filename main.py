@@ -102,6 +102,7 @@ def main():
             if seconds >= 10:
                 seconds = 0
                 i = 0
+                #ssls
 
 
         for event in pygame.event.get():
