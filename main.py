@@ -89,7 +89,7 @@ def main():
     miliseconds_delay2 = 3000
     seconds = 0
     pygame.time.set_timer(second_walk_event, miliseconds_delay2)
-    myfont = pygame.font.SysFont("comicsansms", 25)
+    myfont = pygame.font.SysFont("comicsansms", 18)
     hit = 60
     hits = [1, 2, 3, 4, 5, 6]
 
@@ -98,12 +98,9 @@ def main():
         for i in range(10):
             i = 0
             seconds += + 0.01
-            txt = myfont.render(f"hit: {int(i + seconds)}", 1, (220, 0, 90))
+            txt = myfont.render(f"hit: {int(seconds)}", 1, (220, 0, 90))
             if seconds >= 10:
                 seconds = 0
-                i = 0
-                #ssls
-
 
         for event in pygame.event.get():
 
@@ -285,12 +282,12 @@ def main():
                     player_action, player_frame = change_action(player_action, player_frame, 'run')
         #if player_rect.x + player_movement[0] == enemy_rect.x - 35 + enemy_movement[0]:
 
-        screen.blit(txt, (player_movement[0] + 30  + vertical_momentum, 600 - air_timer))
+        screen.blit(txt, (player_movement[0] + 32 , 610 - air_timer))
 
         screen.blit(pygame.transform.flip(enemy_img,enemy_flip, False), (enemy_rect[0] + enemy_movement[0], enemy_rect[1] + enemy_movement[1]))
         screen.blit(pygame.transform.flip(second_enemy_img, enemy_flip, False), (second_enemy_rect[0] + second_enemy_movement[0], second_enemy_rect[1] + second_enemy_movement[1]))
         screen.blit(pygame.transform.flip(player_img, player_flip, False), (player_rect[0]  + player_movement[0], player_rect.y  + player_movement[1] - scroll[1]))
-        #pygame.draw.rect(screen, (0, 0, 0), hitbox, 1)
+        pygame.draw.rect(screen, (0, 0, 0), hitbox, 1)
         pygame.draw.rect(screen, (255, 0, 0), (player_movement[0], player_movement[1] + 600, 50, 5))
         pygame.draw.rect(screen, (0, 255, 0), (player_movement[0], player_movement[1] + 600, health, 5))
 
