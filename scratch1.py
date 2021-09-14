@@ -13,6 +13,9 @@ def f(a, L=None):
 print(f(1))
 print(f(2))
 print(f(3))
+print("ToolsQA")
+first  = f(3333333)
+print(*first)
 
 
 
@@ -28,6 +31,8 @@ print(head)
 
 
 result_list = ['True', 'False', 'File not found']
+(pierwszy, drugi, *trzeci) = result_list
+print(trzeci)
 result_string = ''.join(result_list)
 print(result_string)
 
