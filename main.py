@@ -187,7 +187,6 @@ def main():
             #moving_right = False
             double_side()
 
-
         if moving_right :
             player_movement[0] += 2
 
@@ -290,8 +289,9 @@ def main():
             draw_text("OUCH!", def_col, player_movement[0] + 82, 610 + scroll[1] / 4)
             draw_text("OUCH!", def_col, player_movement[0] + 92, 610 + scroll[1] / 5)
         else:
-            draw_text(None, def_col, player_movement[0] + 72, 610 - scroll[1])
+            draw_text(None, def_col, player_movement[0] + 72, 610)
         print(def_col)
+
 
 
         #if def_col == [0,0,0]:
