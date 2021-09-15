@@ -60,7 +60,6 @@ def main():
     player_action = 'idle'
     enemy_action = 'enemy_walk'
     second_enemy_action = 'secondEnemy_walk'
-    global scroll
     player_frame = 0
     enemy_frame = 0
     second_enemy_frame = 0
@@ -84,18 +83,23 @@ def main():
     second_enemy_movement = [0,0]
     second_walk_event = pygame.USEREVENT + 2
     miliseconds_delay2 = 3000
-    seconds = 2
+    seconds = 0
     pygame.time.set_timer(second_walk_event, miliseconds_delay2)
-    myfont = pygame.font.SysFont("comicsansms", 18)
+    #myfont = pygame.font.SysFont("comicsansms", 18)
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    col_spd = 3
+    col_dir = [-1, -1, -1]
+    def_col = [220, 0, 90]
 
     while loop:
-
-        for i in range(10):
-            seconds += + 0.01
-            txt = myfont.render(f"hit: {int(seconds)}", 1, (220, 0, 90))
+        #print(player_movement[0])
+        #for i in range(3):
+        #    seconds += + 0.01
+            #txt = myfont.render(f"hit: {int(seconds)}", 1, (220, 0, 90))
             #txt = random.random().render(f"hit:" {random.random()})
-            if seconds >= 10:
-                seconds = 0
+            #if seconds >= 10:
+             #   seconds = 0
 
         for event in pygame.event.get():
             pygame.time.set_timer(walk_event, miliseconds_delay // 60)
@@ -111,7 +115,6 @@ def main():
                 if target.x + player_movement[0] > position.x + enemy_movement[0]:
                     enemy_flip = False
                     enemy_movement[0] += 1
-
 
                 else:
                     enemy_flip = True
@@ -147,8 +150,6 @@ def main():
         second_enemy_rect = second_enemy_img.get_rect()
 
         target = Vector2(player_rect[0], player_rect[1])
-
-
         enemy_rect.x = 1160
         enemy_rect.y = 625
         second_enemy_rect.x = 1280
@@ -264,11 +265,42 @@ def main():
 
             if event.key == pygame.K_UP:
                 player_action, player_frame = change_action(player_action, player_frame, 'jump')
+        def draw_text(text, col, x, y):
+            font = pygame.font.SysFont("comicsansms", 15)
+            text_surface = font.render(text, 1, col)
+            text_surface.set_colorkey((255, 255, 255))
+            text_rect = text_surface.get_rect()
+            text_rect.center = (x, y)
+            screen.blit(text_surface, text_rect)
 
-        screen.blit(txt, (player_movement[0] + 32 , 610 - air_timer + scroll[1]))
+
+
+        def col_change(col, dir):
+            for i in range(3):
+                col[i] += col_spd * dir[i]
+                if col[i] >= 255:
+                    col[i] = 0
+                elif col[i] <= 0:
+                    col[i] = 0
+
+        col_change(def_col, col_dir)
+
+        if def_col > [0,0,0]:
+            draw_text("OUCH!", def_col, player_movement[0] + 72, 610 + scroll[1] /3)
+            draw_text("OUCH!", def_col, player_movement[0] + 82, 610 + scroll[1] / 4)
+            draw_text("OUCH!", def_col, player_movement[0] + 92, 610 + scroll[1] / 5)
+        else:
+            draw_text(None, def_col, player_movement[0] + 72, 610 - scroll[1])
+        print(def_col)
+
+
+        #if def_col == [0,0,0]:
+
+        #screen.blit(txt, (player_movement[0] + 32 , 610 - air_timer))
+
         screen.blit(pygame.transform.flip(enemy_img,enemy_flip, False), (enemy_rect[0] + enemy_movement[0], enemy_rect[1] + enemy_movement[1]))
         screen.blit(pygame.transform.flip(second_enemy_img, enemy_flip, False), (second_enemy_rect[0] + second_enemy_movement[0], second_enemy_rect[1] + second_enemy_movement[1]))
-        screen.blit(pygame.transform.flip(player_img, player_flip, False), (player_rect[0]  + player_movement[0], player_rect.y  + player_movement[1] - scroll[1]))
+        screen.blit(pygame.transform.flip(player_img, player_flip, False), (player_rect[0]  + player_movement[0], player_rect.y  + player_movement[1] + 617))
         pygame.draw.rect(screen, (0, 0, 0), hitbox, 1)
         pygame.draw.rect(screen, (0, 0, 0), hitboxEnemy, 1)
         pygame.draw.rect(screen, (255, 0, 0), (player_movement[0], player_movement[1] + 600, 50, 5))
