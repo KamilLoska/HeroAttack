@@ -283,11 +283,10 @@ def main():
                     col[i] = 0
 
         col_change(def_col, col_dir)
-
+        divided = [3,4,5]
         if def_col > [0,0,0]:
-            draw_text("OUCH!", def_col, player_movement[0] + 72, 610 + scroll[1] /3)
-            draw_text("OUCH!", def_col, player_movement[0] + 82, 610 + scroll[1] / 4)
-            draw_text("OUCH!", def_col, player_movement[0] + 92, 610 + scroll[1] / 5)
+            for i in range(3):
+                draw_text("OUCH!", def_col, player_movement[0] + 72, 610 + scroll[1] /divided[i])
         else:
             draw_text(None, def_col, player_movement[0] + 72, 610)
         print(def_col)
