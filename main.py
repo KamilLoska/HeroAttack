@@ -18,7 +18,6 @@ animation_frames = {}
 def load_animation(path, frame_durations):
     global animation_frames
     animation_name = path.split('/')[-1]
-
     animation_frame_data = []
     n = 0
     for frame in frame_durations:
@@ -30,7 +29,6 @@ def load_animation(path, frame_durations):
         for i in range(frame):
             animation_frame_data.append(animation_frame_id)
         n += 1
-
     return animation_frame_data
 
 def change_action(action_var, frame, new_value):
@@ -38,7 +36,6 @@ def change_action(action_var, frame, new_value):
         action_var = new_value
         frame = 0
     return action_var, frame
-
 
 animation_database = { }
 animation_database['idle'] = load_animation('C:/Users/karni/Documents/GameProject1/idle', [14, 14, 14, 14])
@@ -85,9 +82,6 @@ def main():
     miliseconds_delay2 = 3000
     seconds = 0
     pygame.time.set_timer(second_walk_event, miliseconds_delay2)
-    #myfont = pygame.font.SysFont("comicsansms", 18)
-    black = (0, 0, 0)
-    white = (255, 255, 255)
     col_spd = 2
     col_dir = [-1, -1, -1]
     def_col = [220, 0, 90]
@@ -127,7 +121,6 @@ def main():
                 second_enemy_movement[0] -= 2
                 second_enemy_action, second_enemy_frame = change_action(second_enemy_action, second_enemy_frame, 'secondEnemy_walk')
 
-
         player_frame += 1
         if player_frame >= len(animation_database[player_action]):
             player_frame = 0
@@ -135,7 +128,6 @@ def main():
         player_img_id = animation_database[player_action][player_frame]
         player_img = animation_frames[player_img_id]
         player_rect = player_img.get_rect()
-
 
         enemy_frame += 1
         if enemy_frame >= len(animation_database[enemy_action]):
@@ -160,13 +152,13 @@ def main():
         position = Vector2(enemy_rect[0], enemy_rect[1])
 
         screen.blit(background1, (0, 0))
+
         true_scroll[0] += (player_rect.x-true_scroll[0]-10)/10
         true_scroll[1] += (player_rect.y - true_scroll[1] - 615) / 30
 
         scroll = true_scroll.copy()
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
-
 
         keys = pygame.key.get_pressed()
         hitbox = (player_movement[0], player_movement[1] + 619, 40, 60)
@@ -182,8 +174,6 @@ def main():
            if keys[pygame.K_LEFT]:
                 player_action, player_frame = change_action(player_action, player_frame, 'run')
 
-
-
         if player_movement[0] > 1050 or player_movement[0] < - 10:
             double_side()
 
@@ -193,8 +183,6 @@ def main():
         if player_rect.x + player_movement[0] == enemy_rect.x - 35 + enemy_movement[0]:
             pygame.time.set_timer(walk_event, miliseconds_delay // 4000)
             enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'enemy_attack')
-
-
 
         while True:
             for n in range(8,9):
@@ -211,19 +199,15 @@ def main():
                         if player_tuple.colliderect(enemy_tuple):
 
                             draw_text("OUCH!", def_col, player_movement[0] + tenscroll[0], player_movement[1] + 610 + tenscroll[1])
-                                #tenscroll[1] = 4
                             if skroll[1] < -58:
                                 draw_text("", def_col, player_movement[0], player_movement[1] + 610 )
-                                print(tenscroll[1])
                                 skroll[1] = 0
                             else:
                                 def_col = [220, 0, 90]
 
-
-
                     col_change(def_col, col_dir)
             break
-        #print(player_movement[1] + player_rect[1] + scroll[1])
+
         if moving_left:
             player_movement[0] -= 2
         if keys[pygame.K_SPACE]:
@@ -236,7 +220,6 @@ def main():
                 if player_movement[1] >= -1:
                     vertical_momentum = -1
                     air_timer = 0
-
                 else:
                     air_timer += 1
 
@@ -254,7 +237,6 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
@@ -304,9 +286,6 @@ def main():
             text_rect.center = (x, y)
             screen.blit(text_surface, text_rect)
 
-
-
-
         def col_change(col, dir):
             for i in range(3):
                 col[i] += col_spd * dir[i]
@@ -315,12 +294,6 @@ def main():
                 elif col[i] <= 0:
                     col[i] = 0
 
-        #print(def_col)
-
-        #if def_col == [0,0,0]:
-
-        #screen.blit(txt, (player_movement[0] + 32 , 610 - air_timer))
-
         screen.blit(pygame.transform.flip(enemy_img,enemy_flip, False), (enemy_rect[0] + enemy_movement[0], enemy_rect[1] + enemy_movement[1]))
         screen.blit(pygame.transform.flip(second_enemy_img, enemy_flip, False), (second_enemy_rect[0] + second_enemy_movement[0], second_enemy_rect[1] + second_enemy_movement[1]))
         screen.blit(pygame.transform.flip(player_img, player_flip, False), (player_rect[0]  + player_movement[0], player_rect.y  + player_movement[1] + 617))
@@ -328,7 +301,6 @@ def main():
         pygame.draw.rect(screen, (0, 0, 0), hitboxEnemy, 1)
         pygame.draw.rect(screen, (255, 0, 0), (player_movement[0], player_movement[1] + 600, 50, 5))
         pygame.draw.rect(screen, (0, 255, 0), (player_movement[0], player_movement[1] + 600, health, 5))
-
 
         pygame.display.update()
         clock.tick(60)
