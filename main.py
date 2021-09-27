@@ -49,9 +49,9 @@ animation_database['enemy_walk'] = load_animation('C:/Users/karni/Documents/Game
 animation_database['enemy_attack'] = load_animation('C:/Users/karni/Documents/GameProject1/enemy_attack', [8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4])
 animation_database['secondEnemy_walk'] = load_animation('C:/Users/karni/Documents/GameProject1/secondEnemy_walk', [8, 8, 8, 8, 8, 8])
 animation_database['jump'] = load_animation('C:/Users/karni/Documents/GameProject1/jump', [1, 1, 4, 4, 4, 4, 4, 4, 4, 4])
-print(animation_database)
+
 def main():
-    global event, position, target
+    global event, position, target, draw_text
     pygame.init()
     screen = pygame.display.set_mode((1060, 720))
     clock = pygame.time.Clock()
@@ -88,9 +88,12 @@ def main():
     #myfont = pygame.font.SysFont("comicsansms", 18)
     black = (0, 0, 0)
     white = (255, 255, 255)
-    col_spd = 3
+    col_spd = 2
     col_dir = [-1, -1, -1]
     def_col = [220, 0, 90]
+    global skroll
+    skroll = [0, 0]
+    divided = [3, 4, 5]
 
     while loop:
         #print(player_movement[0])
@@ -180,11 +183,8 @@ def main():
                 player_action, player_frame = change_action(player_action, player_frame, 'run')
 
 
-        if player_tuple.colliderect(enemy_tuple):
-            print("TTT")
 
         if player_movement[0] > 1050 or player_movement[0] < - 10:
-            #moving_right = False
             double_side()
 
         if moving_right :
@@ -194,6 +194,36 @@ def main():
             pygame.time.set_timer(walk_event, miliseconds_delay // 4000)
             enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'enemy_attack')
 
+
+
+        while True:
+            for n in range(8,9):
+                if enemy_img_id == f"enemy_attack_{n}":
+                    if def_col >[0, 0, 0]:
+                        global tenscroll
+                        skroll[0] += (player_rect.x  - skroll[0] + 25) / 4
+                        skroll[1] += (player_rect.y - skroll[1] - 615) / 330
+                        tenscroll = skroll.copy()
+                        tenscroll[0] = int(tenscroll[0])
+                        tenscroll[1] = int(tenscroll[1])
+
+                            #for i in range():
+                        if player_tuple.colliderect(enemy_tuple):
+
+                            draw_text("OUCH!", def_col, player_movement[0] + tenscroll[0], player_movement[1] + 610 + tenscroll[1])
+                                #tenscroll[1] = 4
+                            if skroll[1] < -58:
+                                draw_text("", def_col, player_movement[0], player_movement[1] + 610 )
+                                print(tenscroll[1])
+                                skroll[1] = 0
+                            else:
+                                def_col = [220, 0, 90]
+
+
+
+                    col_change(def_col, col_dir)
+            break
+        #print(player_movement[1] + player_rect[1] + scroll[1])
         if moving_left:
             player_movement[0] -= 2
         if keys[pygame.K_SPACE]:
@@ -264,6 +294,8 @@ def main():
 
             if event.key == pygame.K_UP:
                 player_action, player_frame = change_action(player_action, player_frame, 'jump')
+
+
         def draw_text(text, col, x, y):
             font = pygame.font.SysFont("comicsansms", 15)
             text_surface = font.render(text, 1, col)
@@ -271,6 +303,7 @@ def main():
             text_rect = text_surface.get_rect()
             text_rect.center = (x, y)
             screen.blit(text_surface, text_rect)
+
 
 
 
@@ -282,16 +315,7 @@ def main():
                 elif col[i] <= 0:
                     col[i] = 0
 
-        col_change(def_col, col_dir)
-        divided = [3,4,5]
-        if def_col > [0,0,0]:
-            for i in range(3):
-                draw_text("OUCH!", def_col, player_movement[0] + 72, 610 + scroll[1] /divided[i])
-        else:
-            draw_text(None, def_col, player_movement[0] + 72, 610)
-        print(def_col)
-
-
+        #print(def_col)
 
         #if def_col == [0,0,0]:
 
@@ -304,6 +328,7 @@ def main():
         pygame.draw.rect(screen, (0, 0, 0), hitboxEnemy, 1)
         pygame.draw.rect(screen, (255, 0, 0), (player_movement[0], player_movement[1] + 600, 50, 5))
         pygame.draw.rect(screen, (0, 255, 0), (player_movement[0], player_movement[1] + 600, health, 5))
+
 
         pygame.display.update()
         clock.tick(60)
