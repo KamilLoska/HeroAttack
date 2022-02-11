@@ -363,15 +363,12 @@ def main():
 
                             if poops[i] <= 13:
                                 poops[i] += 1
-                                i = 0
-                                if z >= 14:
-                                    i += 1
 
+                                if i >= 14:
+                                    z += 1
+                                    i = 0
 
                             mobs[i] = animation_frames[f'death_{poops[i]}']
-
-
-                    #deathFrame = 0
 
                     #else:
                      #   clock.tick(30)
