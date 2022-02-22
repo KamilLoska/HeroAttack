@@ -1,8 +1,6 @@
 import pygame
 import sys
 import os
-from pygame.sprite import Group
-from Hero import hero
 from pygame.math import Vector2
 import time
 import random
@@ -63,8 +61,6 @@ def main():
     player_frame = 0
     enemy_frame = 0
     second_enemy_frame = 0
-    #heroo = Group()
-    #heroo.add(Hero)
     background1 = pygame.image.load(resource_path('background.jpg'))
     true_scroll = [0, 0]
     player_movement = [0, 0]
@@ -103,7 +99,6 @@ def main():
     global healths
     global new_move
     global mobs1
-    change_frame = 0
     mobHealth = 50
     healths = [50, 50, 50]
     new_move = [0, 0]
@@ -118,7 +113,6 @@ def main():
         moveMe.append(moving.copy())
         poops.append(deathFrame)
 
-    gameRun = False
     while loop:
 
         for i in range(3):
@@ -129,44 +123,20 @@ def main():
 
         for event in pygame.event.get():
             pygame.time.set_timer(walk_event, miliseconds_delay // 80)
-
-
-            #pygame.time.set_timer(second_walk_event, miliseconds_delay2 // 60)
-            #print(pygame.time.set_timer(second_walk_event, miliseconds_delay2 // 60))
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
 
-            #if event.type == walk_event:
             global rects, RectDict, mobs
 
             for i, v in enumerate(moveMe):
-
-                #if target.x + player_movement[0] > position.x + moveMe[i][0]:
                 enemy_flip = False
-                    #enemy_mov[0] += 2
-                #if moveMe[i][0] >= 0:
-                 #   moveMe[i][0] += 2
-                    #for m in range(3):
-                        #   if healths[m] <= 0:
-                        #      pygame.time.set_timer(walk_event, 0)
-                        #     enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'death')
 
                 if moveMe[i][0] <= 0:
 
                     enemy_flip = True
-                #if target.x + player_movement[0] < position.x + moveMe[i][0]:
-                    # enemy_mov[0] -= 2
                     moveMe[i][0] -= 2
-                    #for n in range(3):
-
-
-
-                    #for m in range(3):
-                     #   if healths[m] <= 0:
-                            #pygame.time.set_timer(walk_event, 5000, 1)
-                      #         enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'death')
 
 
             #if event.type == second_walk_event:
@@ -258,7 +228,6 @@ def main():
 
                     else:
                         def_col = [220, 0, 90]
-                        #print(health)
                     col_change(def_col, col_dir)
 
 
@@ -307,7 +276,6 @@ def main():
 
             global mobHealth, healths, new_move, rects, RectDict, deathFrame
             mobs = []
-            DeleteMobs = []
             dictt = {}
             enemy_img_ID = animation_database[enemy_action][enemy_frame]
             enemy_IMG = animation_frames[enemy_img_ID]
@@ -317,8 +285,6 @@ def main():
             dictTrue = {}
             RectDict = {}
             rect_enemy = enemy_IMG.get_rect().copy()
-            divind = 60
-            myRect = []
 
 
             hitbox = (player_movement[0], player_movement[1] + 619, 40, 60)
@@ -326,8 +292,6 @@ def main():
             global walking_enemy
 
             enemy_rectt.x = 1050
-            current_posX = enemy_rectt.x + enemy_mov[0]
-
             for k in range(3):
                 enemy_rectt.x += 66
                 enemys_rect = (enemy_rectt.copy().x +  moveMe[k][0])
@@ -340,13 +304,7 @@ def main():
                 mobs.append(enemy_IMG)
 
                 dictt[mobs[i]] = healths
-                #RectDict[rects[i]] = moving[i][0]
-
                 enemy_rectt[1] = 625
-
-                #for index, item in enumerate(rects):
-                #for item, value in sorted(enumerate(rects), reverse = True):
-                draw = moveMe.copy()
 
                 if healths[i] >= 0:
                     #screen.blit(pygame.transform.flip(mobs[i], enemy_flip, False), ((RectDict[rects[i]]), enemy_rectt[1]))
@@ -363,18 +321,14 @@ def main():
 
                             if poops[i] <= 13:
                                 poops[i] += 1
-
+                                clock.tick(45)
                                 if i >= 14:
                                     z += 1
+
                                     i = 0
 
                             mobs[i] = animation_frames[f'death_{poops[i]}']
 
-                    #else:
-                     #   clock.tick(30)
-                    #enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'death')
-
-                    #moveMe[i][0] = -moveMe[i][0]
                             moveMe[i][0] += 2
 
                             if moveMe[i][0] %3:
@@ -384,8 +338,6 @@ def main():
 
                 i = 0
                 if player_action == 'attack':
-                        #mobHealth -= 0.5
-
                     for h in healths:
                         healths[i] -= 0.5
                         if h <= 0:
