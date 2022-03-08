@@ -37,16 +37,15 @@ def change_action(action_var, frame, new_value):
     return action_var, frame
 
 animation_database = { }
-animation_database['idle'] = load_animation('C:/Users/karni/Documents/GameProject1/idle', [14, 14, 14, 14])
-animation_database['run'] = load_animation('C:/Users/karni/Documents/GameProject1/run', [7, 7, 7, 7, 7, 7])
-animation_database['attack'] = load_animation('C:/Users/karni/Documents/GameProject1/attack', [1, 1, 1, 1, 1, 1, 1, 1, 5, 5])
-animation_database['idle_enemy'] = load_animation('C:/Users/karni/Documents/GameProject1/idle/idle_enemy', [8, 8, 8, 8, 8, 9, 7, 7, 7, 7])
-animation_database['enemy_walk'] = load_animation('C:/Users/karni/Documents/GameProject1/enemy_walk', [8, 8, 8, 8, 8, 9, 7, 7, 7, 7, 7, 7])
-animation_database['enemy_attack'] = load_animation('C:/Users/karni/Documents/GameProject1/enemy_attack', [8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4])
-animation_database['secondEnemy_walk'] = load_animation('C:/Users/karni/Documents/GameProject1/secondEnemy_walk', [8, 8, 8, 8, 8, 8])
-animation_database['jump'] = load_animation('C:/Users/karni/Documents/GameProject1/jump', [1, 1, 4, 4, 4, 4, 4, 4, 4, 4])
-animation_database['death'] = load_animation('C:/Users/karni/Documents/GameProject1/death', [20, 20, 20, 20, 20, 20, 20, 20, 20,
-                                                                                             20, 20, 20, 20, 20, 20])
+animation_database['idle'] = load_animation('idle', [14, 14, 14, 14])
+animation_database['run'] = load_animation('run', [7, 7, 7, 7, 7, 7])
+animation_database['attack'] = load_animation('attack', [1, 1, 1, 1, 1, 1, 1, 1, 5, 5])
+animation_database['idle_enemy'] = load_animation('idle/idle_enemy', [8, 8, 8, 8, 8, 9, 7, 7, 7, 7])
+animation_database['enemy_walk'] = load_animation('enemy_walk', [8, 8, 8, 8, 8, 9, 7, 7, 7, 7, 7, 7])
+animation_database['enemy_attack'] = load_animation('enemy_attack', [8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4])
+animation_database['secondEnemy_walk'] = load_animation('secondEnemy_walk', [8, 8, 8, 8, 8, 8])
+animation_database['jump'] = load_animation('jump', [1, 1, 4, 4, 4, 4, 4, 4, 4, 4])
+animation_database['death'] = load_animation('death', [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20])
 
 def main():
     global event, position, target, draw_text
@@ -107,7 +106,7 @@ def main():
     moveMe = []
     global deathFrame
     deathFrame = 0
-    poops = []
+    walkings = []
     for l in range(3):
         walkings.append(walking_enemy)
         moveMe.append(moving.copy())
@@ -138,10 +137,6 @@ def main():
                     enemy_flip = True
                     moveMe[i][0] -= 2
 
-
-            #if event.type == second_walk_event:
-             #   second_enemy_movement[0] -= 2
-              #  second_enemy_action, second_enemy_frame = change_action(second_enemy_action, second_enemy_frame, 'secondEnemy_walk')
 
         player_frame += 1
         if player_frame >= len(animation_database[player_action]):
@@ -200,14 +195,11 @@ def main():
         if player_movement[0] > 1050 or player_movement[0] < - 10:
             double_side()
 
+               
         if moving_right and keys[pygame.K_RIGHT]:
             player_movement[0] += 2
         elif moving_left and keys[pygame.K_LEFT]:
             player_movement[0] -= 2
-
-        #if player_rect.x + player_movement[0] == enemy_rect.x - 35 + enemy_movement[0]:
-         #   pygame.time.set_timer(walk_event, miliseconds_delay // 4000)
-          #  enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'enemy_attack')
 
         if def_col > [0, 0, 0]:
 
@@ -231,9 +223,6 @@ def main():
                     col_change(def_col, col_dir)
 
 
-        #if keys[pygame.K_SPACE]:
-         #   player_action, player_frame = change_action(player_action, player_frame, 'attack')
-
         if keys[pygame.K_UP]:
             player_action, player_frame = change_action(player_action, player_frame, 'jump')
 
@@ -249,10 +238,6 @@ def main():
         def hitMob(img, posX, posXmob, posY, posYmob, player_action, frame, flip):
             global mobHealth
 
-            #if player_tuple.colliderect(enemy_tuple):
-             #   if player_action == 'attack':
-              #      mobHealth -= 0.5
-               #     print(mobHealth)
 
             if mobHealth > 0:
 
@@ -282,8 +267,7 @@ def main():
             enemy_rectt = enemy_IMG.get_rect().copy()
             rects = []
             mobs1 = []
-            dictTrue = {}
-            RectDict = {}
+
             rect_enemy = enemy_IMG.get_rect().copy()
 
 
@@ -297,7 +281,7 @@ def main():
                 enemys_rect = (enemy_rectt.copy().x +  moveMe[k][0])
                 rects.append(enemys_rect)
 
-            print(poops)
+
             dictTrue[f'{rects}'] = walkings
 
             for i in range(3):
@@ -319,15 +303,15 @@ def main():
                 if healths[i] <= 0:
                     for z in range(len(str(i))):
 
-                            if poops[i] <= 13:
-                                poops[i] += 1
+                            if walkings[i] <= 13:
+                                walkings[i] += 1
                                 clock.tick(45)
                                 if i >= 14:
                                     z += 1
 
                                     i = 0
 
-                            mobs[i] = animation_frames[f'death_{poops[i]}']
+                            mobs[i] = animation_frames[f'death_{walkings[i]}']
 
                             moveMe[i][0] += 2
 
