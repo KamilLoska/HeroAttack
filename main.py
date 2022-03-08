@@ -327,10 +327,6 @@ def main():
                         if h <= 0:
                             i += 1
 
-                            #enemy_action, enemy_frame = change_action(enemy_action, enemy_frame, 'death')
-                            #deathFrame = 0
-
-
                     for k, v in dictt.items():
                         if v[2] <= 0 and h <= 0:
                             healths = [50, 50, 50]
@@ -356,10 +352,6 @@ def main():
                     pygame.quit()
                     sys.exit()
 
-                #if event.key == pygame.K_RIGHT:
-                 #   moving_right = True
-                #if event.key == pygame.K_LEFT:
-                #    moving_left = True
 
         if event.type == pygame.KEYDOWN:
 
@@ -390,25 +382,9 @@ def main():
                 player_action, player_frame = change_action(player_action, player_frame, 'idle')
 
 
-            #if event.key == pygame.K_SPACE:
-                #player_frame = 8
-             #   player_action, player_frame = change_action(player_action, player_frame, 'idle')
-
-
             if event.key == pygame.K_UP:
-                #vertical_momentum = 5
-
-               # print(animation_frames)
-                #player_action, player_frame = change_action(player_action, player_frame, 'idle')
-                #print(vertical_momentum)
-             #   player_action, player_frame = change_action(player_action, player_frame, 'jump')
-              #  if player_movement[1] == 5:
-
-            #if player_movement[0] > 0 and keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-             #   player_action, player_frame = change_action(player_action, player_frame, 'run')
-
                 pass
-                #player_action, player_frame = change_action(player_action, player_frame, 'idle')
+
 
         def draw_text(text, col, x, y):
             font = pygame.font.SysFont("comicsansms", 15)
@@ -425,18 +401,9 @@ def main():
                     col[i] = 0
                 elif col[i] <= 0:
                     col[i] = 0
-        #print(player_frame == 15)
-        #screen.blit(pygame.transform.flip(enemy_img,enemy_flip, False), (enemy_rect[0] + enemy_movement[0], enemy_rect[1] + enemy_movement[1]))
-        #screen.blit(pygame.transform.flip(second_enemy_img, enemy_flip, False), (second_enemy_rect[0] + second_enemy_movement[0], second_enemy_rect[1] + second_enemy_movement[1]))
-        #pygame.draw.rect(screen, (0, 0, 0), hitbox, 1)
-        #pygame.draw.rect(screen, (0, 0, 0), hitboxEnemy, 1)]
+
         spawn_mobs(enemy_action, enemy_frame, animation_database, enemy_flip, moveMe)
 
-
-        #hitMob(enemy_img, enemy_rect[0], enemy_movement[0], enemy_rect[1], enemy_movement[1], player_action,
-         #      enemy_frame, enemy_flip)
-
-        #screen.blit(txt, (player_movement[0], player_movement[1] + 610))
         if health >= 0:
             screen.blit(pygame.transform.flip(player_img, player_flip, False),
                         (player_rect[0] + player_movement[0], player_rect.y + player_movement[1] + 617))
@@ -448,10 +415,7 @@ def main():
 
             player_img = pygame.Surface([0,0])
             screen.blit(player_img, (0,0))
-        #else:
 
-            #enemy_img = pygame.Surface([0,0])
-            #screen.blit(enemy_img, (0,0))
 
         pygame.display.update()
         clock.tick(60)
