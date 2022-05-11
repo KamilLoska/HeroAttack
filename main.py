@@ -113,7 +113,6 @@ def main():
         poops.append(deathFrame)
 
     while loop:
-
         for i in range(3):
             seconds += 0.01
             txt = myfont.render(f"hit: {int(seconds)}", 1, (220, 0, 90))
@@ -126,14 +125,12 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-
             global rects, RectDict, mobs
-
+            
             for i, v in enumerate(moveMe):
                 enemy_flip = False
-
+                
                 if moveMe[i][0] <= 0:
-
                     enemy_flip = True
                     moveMe[i][0] -= 2
 
@@ -145,14 +142,12 @@ def main():
         player_img_id = animation_database[player_action][player_frame]
         player_img = animation_frames[player_img_id]
         player_rect = player_img.get_rect()
-
         enemy_frame += 1
         if enemy_frame >= len(animation_database[enemy_action]):
             enemy_frame = 0
         enemy_img_id = animation_database[enemy_action][enemy_frame]
         enemy_img = animation_frames[enemy_img_id]
         enemy_rect = enemy_img.get_rect()
-
         second_enemy_frame += 1
         if second_enemy_frame >= len(animation_database[second_enemy_action]):
             second_enemy_frame = 0
@@ -166,17 +161,14 @@ def main():
         second_enemy_rect.x = 1280
         second_enemy_rect.y = 625
         position = Vector2(enemy_rect[0], enemy_rect[1])
-
         screen.blit(background1, (0, 0))
-
         true_scroll[0] += (player_rect.x-true_scroll[0]-10)/10
         true_scroll[1] += (player_rect.y - true_scroll[1] - 615) / 30
 
         scroll = true_scroll.copy()
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
-
-
+        
         global tenscroll
         skroll[0] += (player_rect.x - skroll[0] + 25) / 4
         skroll[1] += (player_rect.y - skroll[1] - 410) / 180
@@ -194,15 +186,14 @@ def main():
 
         if player_movement[0] > 1050 or player_movement[0] < - 10:
             double_side()
-
-               
+            
         if moving_right and keys[pygame.K_RIGHT]:
             player_movement[0] += 2
+            
         elif moving_left and keys[pygame.K_LEFT]:
             player_movement[0] -= 2
 
         if def_col > [0, 0, 0]:
-
             if player_tuple.colliderect(enemy_tuple):
                 if enemy_frame == 70:
                     health -= 4
@@ -225,8 +216,6 @@ def main():
 
         if keys[pygame.K_UP]:
             player_action, player_frame = change_action(player_action, player_frame, 'jump')
-
-
             if air_timer < 7:
                 vertical_momentum = -6
             if player_movement[1] >= -1:
@@ -237,16 +226,11 @@ def main():
 
         def hitMob(img, posX, posXmob, posY, posYmob, player_action, frame, flip):
             global mobHealth
-
-
             if mobHealth > 0:
-
                 screen.blit(pygame.transform.flip(img, flip, False),
                             (posX + posXmob, posY + posYmob))
-
                 pygame.draw.rect(screen, (255, 0, 0),
                                  (posXmob + posX, posY + posYmob, 50, 5))
-
                 pygame.draw.rect(screen, (0, 255, 0),
                                  (posXmob + posX, posY + posYmob, mobHealth, 5))
 
@@ -258,7 +242,7 @@ def main():
                 player_rect[0] = 1050
 
         def spawn_mobs(enemy_action, enemy_frame, animation_database, enemy_flip, moveMe):
-
+            """Spawning mobs on map"""
             global mobHealth, healths, new_move, rects, RectDict, deathFrame
             mobs = []
             dictt = {}
@@ -269,8 +253,6 @@ def main():
             mobs1 = []
 
             rect_enemy = enemy_IMG.get_rect().copy()
-
-
             hitbox = (player_movement[0], player_movement[1] + 619, 40, 60)
             player_tuple = pygame.Rect(hitbox)
             global walking_enemy
@@ -281,9 +263,7 @@ def main():
                 enemys_rect = (enemy_rectt.copy().x +  moveMe[k][0])
                 rects.append(enemys_rect)
 
-
             dictTrue[f'{rects}'] = walkings
-
             for i in range(3):
                 mobs.append(enemy_IMG)
 
@@ -326,25 +306,19 @@ def main():
                         healths[i] -= 0.5
                         if h <= 0:
                             i += 1
-
                     for k, v in dictt.items():
                         if v[2] <= 0 and h <= 0:
                             healths = [50, 50, 50]
                             enemy_rectt[0] -= 1180
 
-
         if vertical_momentum >= 3:
             vertical_momentum = 5
-
         player_movement[1] += vertical_momentum
         vertical_momentum += 0.6
-
         if player_rect[1] + player_movement[1] >= 5 and moving_right == False and moving_left == False:
-
             player_action, player_frame = change_action(player_action, player_frame, 'idle')
         if keys[pygame.K_SPACE]:
             player_action, player_frame = change_action(player_action, player_frame, 'attack')
-
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -352,13 +326,10 @@ def main():
                     pygame.quit()
                     sys.exit()
 
-
         if event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_RIGHT:
                  moving_right = True
                  player_action, player_frame = change_action(player_action, player_frame, 'run')
-
                  player_flip = False
 
             if event.key == pygame.K_LEFT:
@@ -385,7 +356,6 @@ def main():
             if event.key == pygame.K_UP:
                 pass
 
-
         def draw_text(text, col, x, y):
             font = pygame.font.SysFont("comicsansms", 15)
             text_surface = font.render(text, 1, col)
@@ -401,9 +371,7 @@ def main():
                     col[i] = 0
                 elif col[i] <= 0:
                     col[i] = 0
-
         spawn_mobs(enemy_action, enemy_frame, animation_database, enemy_flip, moveMe)
-
         if health >= 0:
             screen.blit(pygame.transform.flip(player_img, player_flip, False),
                         (player_rect[0] + player_movement[0], player_rect.y + player_movement[1] + 617))
@@ -412,13 +380,10 @@ def main():
             pygame.draw.rect(screen, (255, 255, 33), (0, 680, 1200, 5))
 
         else:
-
             player_img = pygame.Surface([0,0])
             screen.blit(player_img, (0,0))
 
-
         pygame.display.update()
         clock.tick(60)
-
 if __name__ == '__main__':
     main()
